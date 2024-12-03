@@ -71,9 +71,12 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
     
+    @IBOutlet var noButton: UIButton!
     
+    @IBOutlet var yesButton: UIButton!
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
+        if imageView.layer.borderWidth > 0 {return}
         let currentQuestion = questions[currentQuestionIndex]
         let givenAnswer = false
         
@@ -81,6 +84,7 @@ final class MovieQuizViewController: UIViewController {
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        if imageView.layer.borderWidth > 0 {return}
         let currentQuestion = questions[currentQuestionIndex]
         let givenAnswer = true
         
@@ -95,18 +99,26 @@ final class MovieQuizViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageView.layer.cornerRadius = 20
+            imageView.layer.masksToBounds = true
+            yesButton.layer.cornerRadius = 15
+            yesButton.layer.masksToBounds = true
+            noButton.layer.cornerRadius = 15
+            noButton.layer.masksToBounds = true
+
         let firstQuestion = questions[currentQuestionIndex]
         let viewModel = convert(model: firstQuestion)
         show(quiz: viewModel)
+        
     }
     
     
     // приватный метод конвертации, который принимает моковый вопрос и возвращает вью модель для главного экрана
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel( // 1
-            image: UIImage(named: model.image) ?? UIImage(), // 2
-            question: model.text, // 3
-            questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)") // 4
+        let questionStep = QuizStepViewModel(
+            image: UIImage(named: model.image) ?? UIImage(),
+            question: model.text, 
+            questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)")
         return questionStep
     }
     
@@ -121,6 +133,10 @@ final class MovieQuizViewController: UIViewController {
     
     
     private func showAnswerResult(isCorrect: Bool) {
+        if isCorrect {
+            correctAnswers += 1
+        }
+        
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
         imageView.layer.cornerRadius = 6
@@ -134,13 +150,15 @@ final class MovieQuizViewController: UIViewController {
     
     
     private func showNextQuestionOrResults() {
+        imageView.layer.borderWidth = 0
+        imageView.layer.borderColor = nil
         if currentQuestionIndex == questions.count - 1 {
-            let text = "Ваш результат: \(correctAnswers)/10" // 1
-            let viewModel = QuizResultsViewModel( // 2
+            let text = "Ваш результат: \(correctAnswers)/10"
+            let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
                 text: text,
                 buttonText: "Сыграть ещё раз")
-            show(quiz: viewModel) // 3
+            show(quiz: viewModel)
         } else {
             currentQuestionIndex += 1
             let nextQuestion = questions[currentQuestionIndex]
@@ -160,7 +178,8 @@ final class MovieQuizViewController: UIViewController {
         let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
-            
+            self.imageView.layer.borderWidth = 0
+            self.imageView.layer.borderColor = nil
             let firstQuestion = self.questions[self.currentQuestionIndex]
             let viewModel = self.convert(model: firstQuestion)
             self.show(quiz: viewModel)
