@@ -73,7 +73,6 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet var yesButton: UIButton!
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        if imageView.layer.borderWidth > 0 { return }
             let currentQuestion = questions[currentQuestionIndex]
             let givenAnswer = false
             let isCorrect = givenAnswer == currentQuestion.correctAnswer
@@ -81,7 +80,6 @@ final class MovieQuizViewController: UIViewController {
         }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        if imageView.layer.borderWidth > 0 { return }
             let currentQuestion = questions[currentQuestionIndex]
             let givenAnswer = true
             let isCorrect = givenAnswer == currentQuestion.correctAnswer
