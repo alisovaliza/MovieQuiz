@@ -94,6 +94,7 @@ final class MovieQuizViewController: UIViewController {
         super.viewDidLoad()
         imageView.layer.cornerRadius = 20
             imageView.layer.masksToBounds = true
+        imageView.clipsToBounds = true
             yesButton.layer.cornerRadius = 15
             yesButton.layer.masksToBounds = true
             noButton.layer.cornerRadius = 15
@@ -132,9 +133,9 @@ final class MovieQuizViewController: UIViewController {
         }
       
         imageView.layer.borderWidth = 8
-        imageView.layer.cornerRadius = 6
+        imageView.layer.cornerRadius = 20
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        
+        imageView.layer.masksToBounds = true
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.imageView.layer.borderWidth = 0
