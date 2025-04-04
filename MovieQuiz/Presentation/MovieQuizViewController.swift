@@ -12,14 +12,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate  
     
     @IBOutlet var yesButton: UIButton!
     
-    private var currentQuestionIndex = 0
-    
-    private let questionsAmount: Int = 10
-    private var questionFactory: QuestionFactoryProtocol?
-    private var currentQuestion: QuizQuestion?
-    private var alertPresenter: AlertPresenter?
-    private var correctAnswers = 0
-    private var statisticService: StatisticServiceProtocol = StatisticService()
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard let currentQuestion = currentQuestion else {
@@ -42,6 +34,15 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate  
         let isCorrect = givenAnswer == currentQuestion.correctAnswer
         showAnswerResult(isCorrect: isCorrect)
     }
+    
+    
+    private var currentQuestionIndex = 0
+    private let questionsAmount: Int = 10
+    private var questionFactory: QuestionFactoryProtocol?
+    private var currentQuestion: QuizQuestion?
+    private var alertPresenter: AlertPresenter?
+    private var correctAnswers = 0
+    private var statisticService: StatisticServiceProtocol = StatisticService()
     
     
     override func viewDidLoad() {
