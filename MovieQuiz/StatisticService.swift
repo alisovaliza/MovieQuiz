@@ -7,7 +7,6 @@ final class StatisticService: StatisticServiceProtocol {
         case bestGameCorrect
         case bestGameTotal
         case bestGameDate
-        
         case gamesCount
     }
     

@@ -13,9 +13,17 @@ final class AlertPresenter {
             message: model.message,
             preferredStyle: .alert
         )
+        if model.title == "Ошибка" {
+                alert.view.accessibilityIdentifier = "Network error"
+            } else {
+                alert.view.accessibilityIdentifier = "Game results"
+            }
+        
         let action = UIAlertAction(title: model.buttonText, style: .default) { _ in model.completion?()
         }
+        
         alert.addAction(action)
+        
         viewController?.present(alert, animated: true)
     }
 }
